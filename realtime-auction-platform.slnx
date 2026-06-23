@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="LiveBid.Application/LiveBid.Application.csproj" />
+  <Project Path="LiveBid.Domain/LiveBid.Domain.csproj" />
+  <Project Path="LiveBid.Infrastructure/LiveBid.Infrastructure.csproj" />
+  <Project Path="LiveBid.Tests/LiveBid.Tests.csproj" />
+  <Project Path="realtime-auction-platform/LiveBid.Api.csproj" />
+</Solution>
