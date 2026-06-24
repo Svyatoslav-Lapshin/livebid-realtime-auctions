@@ -1,4 +1,7 @@
 <Solution>
+  <Project Path="docker-compose.dcproj">
+    <Build />
+  </Project>
   <Project Path="LiveBid.Application/LiveBid.Application.csproj" />
   <Project Path="LiveBid.Domain/LiveBid.Domain.csproj" />
   <Project Path="LiveBid.Infrastructure/LiveBid.Infrastructure.csproj" />

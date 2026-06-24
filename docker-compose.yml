@@ -1,0 +1,39 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: livebid-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: livebid_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - livebid-postgres-data:/var/lib/postgresql/data
+    networks:
+      - livebid-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: livebid-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@livebid.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    volumes:
+      - livebid-pgadmin-data:/var/lib/pgadmin
+    networks:
+      - livebid-network
+    depends_on:
+      - postgres
+
+volumes:
+  livebid-postgres-data:
+  livebid-pgadmin-data:
+
+networks:
+  livebid-network:
+    driver: bridge
