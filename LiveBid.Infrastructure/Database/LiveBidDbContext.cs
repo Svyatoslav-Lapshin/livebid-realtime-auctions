@@ -20,5 +20,12 @@ namespace LiveBid.Infrastructure.Database
 
         public DbSet<Bid> Bids => Set<Bid>();
 
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(LiveBidDbContext).Assembly);
+        }
     }
 }
