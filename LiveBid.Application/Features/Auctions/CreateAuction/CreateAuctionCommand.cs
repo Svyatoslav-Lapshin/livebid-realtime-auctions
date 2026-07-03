@@ -1,6 +1,6 @@
 using System.Security.Cryptography.X509Certificates;
 
-public sealed record CreateAuctionCommans(
+public sealed record CreateAuctionCommand(
      Guid SellerId,
      string Title,
      string Description,

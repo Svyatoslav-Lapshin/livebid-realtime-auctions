@@ -1,0 +1,16 @@
+﻿using LiveBid.Domain.Auctions;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace LiveBid.Application.Common.Interfaces
+{
+   public  interface ILiveBidDbContext
+    {
+        Task AddAuctionAsync(Auction auction, CancellationToken cancellationToken = default);
+
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+
+
+    }
+}
