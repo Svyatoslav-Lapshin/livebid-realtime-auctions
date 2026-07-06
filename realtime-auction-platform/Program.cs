@@ -1,5 +1,9 @@
 using LiveBid.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using LiveBid.Application.Common.Interfaces;
+using LiveBid.Application.Features.Auctions.CreateAuction;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +13,11 @@ builder.Services.AddDbContext<LiveBidDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddScoped<ILiveBidDbContext>(provider => provider.GetRequiredService<LiveBidDbContext>());
+builder.Services.AddScoped<IValidator<CreateAuctionCommand>, CreateAuctionValidator>();
+builder.Services.AddScoped<CreateAuctionHandler>();
+
 
 var app = builder.Build();
 

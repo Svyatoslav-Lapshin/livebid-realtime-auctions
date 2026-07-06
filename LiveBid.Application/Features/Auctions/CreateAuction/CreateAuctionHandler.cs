@@ -7,7 +7,6 @@ using LiveBid.Domain.Auctions;
 namespace LiveBid.Application.Features.Auctions.CreateAuction
 {
     public sealed class CreateAuctionHandler 
-
     {
         private readonly ILiveBidDbContext _dbContext;
         private readonly IValidator<CreateAuctionCommand> _validator;

@@ -28,7 +28,7 @@ namespace LiveBid.Infrastructure.Database.Configurations
 
             builder.Property(auction => auction.EndTime).HasColumnName("end_time").IsRequired();
 
-            builder.Property(auction => auction.Status).HasColumnName("status").HasConversion<string>().HasMaxLength(30).IsRequired();
+            builder.Property(auction => auction.Status).HasColumnName("status").HasConversion(status=>status.ToString().ToLowerInvariant(), value=> Enum.Parse<AuctionStatus>(value, ignoreCase:true)).HasMaxLength(30).IsRequired();
 
             builder.Property(auction => auction.CreatedAt).HasColumnName("created_at").IsRequired();
 

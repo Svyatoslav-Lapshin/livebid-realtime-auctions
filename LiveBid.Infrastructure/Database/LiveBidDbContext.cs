@@ -1,4 +1,5 @@
-﻿using LiveBid.Domain.Auctions;
+﻿using LiveBid.Application.Common.Interfaces;
+using LiveBid.Domain.Auctions;
 using LiveBid.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -7,7 +8,7 @@ using System.Text;
 
 namespace LiveBid.Infrastructure.Database
 {
-    public class LiveBidDbContext:DbContext
+    public class LiveBidDbContext:DbContext,ILiveBidDbContext
     {
         public LiveBidDbContext(DbContextOptions<LiveBidDbContext> options)
         : base(options)
@@ -20,7 +21,12 @@ namespace LiveBid.Infrastructure.Database
 
         public DbSet<Bid> Bids => Set<Bid>();
 
+        public async Task AddAuctionAsync(Auction auction, CancellationToken cancellationToken = default)
+        { 
+            await Auctions.AddAsync(auction, cancellationToken);
+        }
 
+       
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
