@@ -20,11 +20,13 @@ namespace LiveBid.Application.Features.Auctions.CreateAuction
         public async Task<Result<CreateAuctionResponse>> Handle(CreateAuctionCommand command, CancellationToken cancellationToken)
         {
             var validationResult = await _validator.ValidateAsync(command, cancellationToken);
+
             if (!validationResult.IsValid)
             {
                 var errorMessage = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage));
                 return Result<CreateAuctionResponse>.Failure(new Error("ValidationError", errorMessage));
             }
+
             var auction = new Auction
             {
                 SellerId = command.SellerId,
@@ -34,10 +36,12 @@ namespace LiveBid.Application.Features.Auctions.CreateAuction
                 CurrentPrice = command.StartPrice,
                 StartTime = command.StartTime,
                 EndTime = command.EndTime,
-                Status = Domain.Auctions.AuctionStatus.Scheduled
+                Status = AuctionStatus.Scheduled
             };
+
             await _dbContext.AddAuctionAsync(auction, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
+
             return Result<CreateAuctionResponse>.Success(new CreateAuctionResponse
             {
                 AuctionId = auction.Id,

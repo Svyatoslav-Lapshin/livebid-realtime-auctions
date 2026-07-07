@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LiveBid.Application.Common.Interfaces
 {
-   public  interface ILiveBidDbContext
+   public interface ILiveBidDbContext
     {
         Task AddAuctionAsync(Auction auction, CancellationToken cancellationToken = default);
 

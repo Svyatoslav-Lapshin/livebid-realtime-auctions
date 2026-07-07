@@ -1,0 +1,6 @@
+@realtime_auction_platform_HostAddress = http://localhost:5291
+
+GET {{realtime_auction_platform_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using FluentValidation;
 using LiveBid.Application.Common.Interfaces;
 using LiveBid.Application.Features.Auctions.CreateAuction;
+using realtime_auction_platform.EndPoints.Auctions;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,7 +27,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.MapGet("/", () => "LiveBid API is running");
 
@@ -52,5 +53,7 @@ app.MapGet("/health/db", async (LiveBidDbContext dbContext) =>
         : Results.Problem("Database connection failed");
 });
 
+
+app.MapCreateAuctionEndpoint();
 
 app.Run();
