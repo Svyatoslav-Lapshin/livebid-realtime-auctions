@@ -26,7 +26,10 @@ namespace LiveBid.Infrastructure.Database
             await Auctions.AddAsync(auction, cancellationToken);
         }
 
-       
+       public async Task<Auction?> GetAuctionAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            return await Auctions.FindAsync([id], cancellationToken);
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
