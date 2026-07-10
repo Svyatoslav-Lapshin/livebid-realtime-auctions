@@ -4,6 +4,7 @@ using FluentValidation;
 using LiveBid.Application.Common.Interfaces;
 using LiveBid.Application.Features.Auctions.CreateAuction;
 using realtime_auction_platform.EndPoints.Auctions;
+using LiveBid.Application.Features.Auctions.GetAuctionById;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +19,7 @@ builder.Services.AddDbContext<LiveBidDbContext>(options =>
 builder.Services.AddScoped<ILiveBidDbContext>(provider => provider.GetRequiredService<LiveBidDbContext>());
 builder.Services.AddScoped<IValidator<CreateAuctionCommand>, CreateAuctionValidator>();
 builder.Services.AddScoped<CreateAuctionHandler>();
+builder.Services.AddScoped<GetAuctionByIdHandler>();
 
 
 var app = builder.Build();
@@ -55,5 +57,6 @@ app.MapGet("/health/db", async (LiveBidDbContext dbContext) =>
 
 
 app.MapCreateAuctionEndpoint();
+app.MapGetAuctionByIdEndpoint();
 
 app.Run();
