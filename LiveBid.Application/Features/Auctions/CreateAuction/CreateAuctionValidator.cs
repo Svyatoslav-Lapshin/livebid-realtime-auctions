@@ -4,6 +4,7 @@ namespace LiveBid.Application.Features.Auctions.CreateAuction
 {
    public sealed  class CreateAuctionValidator: AbstractValidator<CreateAuctionCommand>
     {
+        // This class defines validation rules for the CreateAuctionCommand using FluentValidation.
         public CreateAuctionValidator() {
 
 
