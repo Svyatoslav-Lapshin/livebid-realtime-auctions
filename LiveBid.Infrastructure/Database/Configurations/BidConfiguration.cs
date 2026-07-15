@@ -16,21 +16,35 @@ namespace LiveBid.Infrastructure.Database.Configurations
 
             builder.HasKey(bid => bid.Id);
 
-            builder.Property(bid => bid.Id).HasColumnName("id").HasDefaultValueSql("gen_random_uuid()");
+            builder.Property(bid => bid.Id)
+                .HasColumnName("id")
+                .HasDefaultValueSql("gen_random_uuid()");
 
 
-            builder.Property(bid => bid.AuctionId).HasColumnName("auction_id");
+            builder.Property(bid => bid.AuctionId)
+                .HasColumnName("auction_id");
 
-            builder.Property(auction => auction.BidderId).HasColumnName("bidder_id");
+            builder.Property(auction => auction.BidderId)
+                .HasColumnName("bidder_id");
 
-            builder.Property(auction => auction.Amount).HasColumnName("amount").HasPrecision(18, 2).IsRequired();
+            builder.Property(auction => auction.Amount)
+                .HasColumnName("amount")
+                .HasPrecision(18, 2)
+                .IsRequired();
 
 
-            builder.Property(auction => auction.PlacedAt).HasColumnName("placed_at").HasDefaultValueSql("now").IsRequired();
+            builder.Property(auction => auction.PlacedAt)
+                .HasColumnName("placed_at")
+                .HasDefaultValueSql("now")
+                .IsRequired();
 
-            builder.Property(auction => auction.CreatedAt).HasColumnName("created_at").HasDefaultValueSql("now()").IsRequired();
+            builder.Property(auction => auction.CreatedAt)
+                .HasColumnName("created_at")
+                .HasDefaultValueSql("now()")
+                .IsRequired();
 
-            builder.Property(auction => auction.UpdatedAt).HasColumnName("updated_at");
+            builder.Property(auction => auction.UpdatedAt)
+                .HasColumnName("updated_at");
 
 
 

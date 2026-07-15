@@ -30,6 +30,8 @@ namespace LiveBid.Infrastructure.Database
         {
             return await Auctions.FindAsync([id], cancellationToken);
         }
+
+        public IQueryable<Auction> AuctionsQuery => Set<Auction>();
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

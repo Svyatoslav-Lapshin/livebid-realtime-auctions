@@ -7,6 +7,8 @@ namespace LiveBid.Application.Common.Interfaces
 {
    public interface ILiveBidDbContext
     {
+
+        IQueryable<Auction> AuctionsQuery { get; }
         Task AddAuctionAsync(Auction auction, CancellationToken cancellationToken = default);
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
