@@ -8,7 +8,7 @@ namespace realtime_auction_platform.EndPoints.Auctions
         public static void MapGetAuctionByIdEndpoint(this IEndpointRouteBuilder app)
         {
             // Define the GET endpoint for retrieving an auction by its ID.
-            app.MapGet("/api/auctions/{auctionId}", async (Guid auctionId, GetAuctionByIdHandler handler, CancellationToken cancellationToken) =>
+            app.MapGet("/api/auctions/{auctionId:guid}", async (Guid auctionId, GetAuctionByIdHandler handler, CancellationToken cancellationToken) =>
             {
                 // Create a query object with the provided auction ID.
                 var query = new GetAuctionByIdQuery(auctionId);
@@ -38,8 +38,14 @@ namespace realtime_auction_platform.EndPoints.Auctions
                 }
                 // If the result is successful, return a 200 OK response with the auction data.
                 return Results.Ok(result.Value);
-            });
+            })
+                .WithName("GetAuctionById")
+                .WithTags("Auctions")
+                .Produces(StatusCodes.Status200OK)
+                .Produces(StatusCodes.Status404NotFound)
+                .Produces(StatusCodes.Status400BadRequest); 
         }
+
 
 
     }
