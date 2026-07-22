@@ -21,5 +21,15 @@ namespace LiveBid.Domain.Auctions
 
         public List<Bid> Bids { get; set; } = [];
 
+
+        public void Update(string title, string description,decimal startPrice, DateTimeOffset startTime, DateTimeOffset endTime)
+        {
+            Title = title;
+            Description = description;
+            StartPrice = startPrice;
+            CurrentPrice = startPrice;
+            StartTime = startTime;
+            EndTime = endTime;
+        }
     }
 }

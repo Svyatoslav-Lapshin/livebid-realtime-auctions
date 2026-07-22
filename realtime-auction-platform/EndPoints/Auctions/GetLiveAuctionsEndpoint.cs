@@ -9,6 +9,7 @@ namespace realtime_auction_platform.EndPoints.Auctions
             app.MapGet("/api/auctions/live", async ([AsParameters] GetLiveAuctionsQuery query, GetLiveAuctionsHandler handler, CancellationToken cancellationToken) =>
             {
                 var result = await handler.Handle(query, cancellationToken);
+
                 if (result is null)
                 {
                     return Results.Problem(

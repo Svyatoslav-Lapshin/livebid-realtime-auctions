@@ -6,6 +6,7 @@ using LiveBid.Application.Features.Auctions.CreateAuction;
 using realtime_auction_platform.EndPoints.Auctions;
 using LiveBid.Application.Features.Auctions.GetAuctionById;
 using LiveBid.Application.Features.Auctions.GetLiveAuctions;
+using LiveBid.Application.Features.Auctions.UpdateAuction;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +23,7 @@ builder.Services.AddScoped<IValidator<CreateAuctionCommand>, CreateAuctionValida
 builder.Services.AddScoped<CreateAuctionHandler>();
 builder.Services.AddScoped<GetAuctionByIdHandler>();
 builder.Services.AddScoped<GetLiveAuctionsHandler>();
+builder.Services.AddScoped<UpdateAuctionHandler>();
 
 
 var app = builder.Build();
@@ -61,5 +63,6 @@ app.MapGet("/health/db", async (LiveBidDbContext dbContext) =>
 app.MapCreateAuctionEndpoint();
 app.MapGetAuctionByIdEndpoint();
 app.MapGetLiveAuctionsEndpoint();
+app.MapUpdateAuctionEndpoint();
 
 app.Run();

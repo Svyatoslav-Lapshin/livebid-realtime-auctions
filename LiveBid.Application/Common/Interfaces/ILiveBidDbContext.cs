@@ -14,6 +14,8 @@ namespace LiveBid.Application.Common.Interfaces
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 
         Task<Auction?> GetAuctionAsync(Guid id, CancellationToken cancellationToken = default);
+
+    
     }
 }
  
