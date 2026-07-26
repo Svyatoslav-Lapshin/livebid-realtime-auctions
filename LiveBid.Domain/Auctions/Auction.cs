@@ -5,26 +5,25 @@ using System.Text;
 
 namespace LiveBid.Domain.Auctions
 {
-    public sealed class Auction:BaseEntity
+    public sealed class Auction : BaseEntity
     {
-        public Guid SellerId { get; set; }
-        public string Title { get; set; } = string.Empty;
-        public string Description { get; set; }= string.Empty;
+        public Guid SellerId { get; private set; }
+        public string Title { get; private set; } = string.Empty;
+        public string Description { get; private set; } = string.Empty;
+        public decimal StartPrice { get; private set; }
+        public decimal CurrentPrice { get; private set; }
 
-        public decimal StartPrice { get; set; }
-        public decimal CurrentPrice { get; set; }
-
-        public DateTimeOffset StartTime { get; set; }
-        public DateTimeOffset EndTime { get; set; }
+        public DateTimeOffset StartTime { get; private set; }
+        public DateTimeOffset EndTime { get; private set; }
 
         public AuctionStatus Status { get; private set; } = AuctionStatus.Draft;
 
-        public List<Bid> Bids { get; set; } = [];
+        public List<Bid> Bids { get; private set; } = [];
 
 
         private Auction()
         {
-            
+
         }
 
 
@@ -40,7 +39,7 @@ namespace LiveBid.Domain.Auctions
             Status = AuctionStatus.Draft;
         }
 
-        public void Update(string title, string description,decimal startPrice, DateTimeOffset startTime, DateTimeOffset endTime)
+        public void Update(string title, string description, decimal startPrice, DateTimeOffset startTime, DateTimeOffset endTime)
         {
             Title = title;
             Description = description;
@@ -66,18 +65,47 @@ namespace LiveBid.Domain.Auctions
 
         public bool Cancel(DateTimeOffset currentTime)
         {
-            if (Status is AuctionStatus.Draft and not AuctionStatus.Scheduled)
+            if (Status is not AuctionStatus.Draft and not AuctionStatus.Scheduled)
             {
                 return false;
             }
 
-            if (Status == AuctionStatus.Scheduled && StartTime<=currentTime)
+            if (Status == AuctionStatus.Scheduled && StartTime <= currentTime)
             {
                 return false;
             }
 
             Status = AuctionStatus.Canceled;
             return true;
+        }
+
+
+        public Bid? PlaceBid(Guid bidderId, decimal bidAmount, DateTimeOffset currentTime)
+        {
+            if (Status != AuctionStatus.Live)
+            {
+                return null;
+            }
+
+            if (currentTime < StartTime || currentTime > EndTime)
+            {
+                return null;
+            }
+
+            if (bidderId == SellerId)
+            {
+                return null;
+            }
+
+            if (bidAmount <= CurrentPrice)
+            {
+                return null;
+            }
+
+            var bid = new Bid(Id, bidderId, bidAmount, currentTime);
+            Bids.Add(bid);
+            CurrentPrice = bidAmount;
+            return bid;
         }
     }
 }

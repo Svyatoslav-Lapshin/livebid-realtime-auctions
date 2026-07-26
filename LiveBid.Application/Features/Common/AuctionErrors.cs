@@ -19,7 +19,7 @@ namespace LiveBid.Application.Features.Common
             "The auction cannot be updated because it is either closed or has already started."
         );
 
-        public static readonly Error CannotSchedule=new(
+        public static readonly Error CannotSchedule = new(
             "Auction.CannotSchedule",
             "The auction cannot be scheduled because it is either closed or has already started."
             );
@@ -28,5 +28,25 @@ namespace LiveBid.Application.Features.Common
             "Auction.CannotCancel",
             "The auction cannot be canceled because it is either closed or has already started."
         );
+
+        public static readonly Error AuctionNotFound = new(
+         "Auction.NotFound",
+         "Auction was not found.");
+
+        public static readonly Error BidderNotFound = new(
+            "Bidder.NotFound",
+            "Bidder was not found.");
+
+        public static readonly Error AuctionNotLive = new(
+            "Auction.NotLive",
+            "Bids can only be placed on a live auction.");
+
+        public static readonly Error SellerCannotBid = new(
+            "Auction.SellerCannotBid",
+            "Seller cannot place a bid on their own auction.");
+
+        public static readonly Error BidTooLow = new(
+            "Bid.TooLow",
+            "Bid amount must be greater than the current price.");
     }
 }

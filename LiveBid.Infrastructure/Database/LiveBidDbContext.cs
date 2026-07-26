@@ -26,7 +26,17 @@ namespace LiveBid.Infrastructure.Database
             await Auctions.AddAsync(auction, cancellationToken);
         }
 
-       public async Task<Auction?> GetAuctionAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task AddBidAsync(Bid bid, CancellationToken cancellationToken = default)
+        {
+            await Bids.AddAsync(bid, cancellationToken);
+        }
+
+        public async Task<bool> UserExistAsync(Guid userId, CancellationToken cancellationToken = default)
+        {
+            return await Users.AnyAsync(u => u.Id == userId, cancellationToken);
+        }
+
+        public async Task<Auction?> GetAuctionAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await Auctions.FindAsync([id], cancellationToken);
         }

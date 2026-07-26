@@ -8,9 +8,11 @@ namespace LiveBid.Domain.Common
     {
         public Guid Id { get; set; } = Guid.NewGuid();
 
-        public DateTimeOffset CreatedAt { get; set; }= DateTimeOffset.UtcNow;
+        public DateTimeOffset CreatedAt { get; protected set; }
 
-        public DateTimeOffset? UpdatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; protected set; }
+
+      
 
     }
 }

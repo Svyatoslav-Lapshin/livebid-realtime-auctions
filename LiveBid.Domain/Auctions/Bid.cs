@@ -7,13 +7,22 @@ namespace LiveBid.Domain.Auctions
 {
     public sealed class Bid: BaseEntity
     {
-        public Guid AuctionId { get; set; }
-        public Guid BidderId { get; set; }
-        public decimal Amount { get; set; }
+        private Bid() { }
 
-        public DateTimeOffset? PlacedAt { get; set; }=DateTimeOffset.UtcNow;
+        public Bid(Guid auctionId, Guid bidderId, decimal amount, DateTimeOffset placedAt)
+        {
+            AuctionId = auctionId;
+            BidderId = bidderId;
+            Amount = amount;
+            PlacedAt = placedAt;
+        }
 
-        public Auction Auction { get; set; } = null!;
+
+        public Guid AuctionId { get; private set; }
+        public Guid BidderId { get; private set; }
+        public decimal Amount { get; private set; }
+        public DateTimeOffset PlacedAt { get; private set; }
+        public Auction Auction { get; private set; } = null!;
 
     }
 }

@@ -2,9 +2,6 @@
 using LiveBid.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LiveBid.Infrastructure.Database.Configurations
 {
@@ -17,52 +14,51 @@ namespace LiveBid.Infrastructure.Database.Configurations
             builder.HasKey(bid => bid.Id);
 
             builder.Property(bid => bid.Id)
-                .HasColumnName("id")
-                .HasDefaultValueSql("gen_random_uuid()");
-
+                .HasColumnName("id");
+              
 
             builder.Property(bid => bid.AuctionId)
-                .HasColumnName("auction_id");
+                .HasColumnName("auction_id")
+                .IsRequired();
 
-            builder.Property(auction => auction.BidderId)
-                .HasColumnName("bidder_id");
+            builder.Property(bid => bid.BidderId)
+                .HasColumnName("bidder_id")
+                .IsRequired();
 
-            builder.Property(auction => auction.Amount)
+            builder.Property(bid => bid.Amount)
                 .HasColumnName("amount")
                 .HasPrecision(18, 2)
                 .IsRequired();
 
-
-            builder.Property(auction => auction.PlacedAt)
+            builder.Property(bid => bid.PlacedAt)
                 .HasColumnName("placed_at")
-                .HasDefaultValueSql("now")
                 .IsRequired();
 
-            builder.Property(auction => auction.CreatedAt)
-                .HasColumnName("created_at")
-                .HasDefaultValueSql("now()")
+            builder.Property(bid => bid.CreatedAt)
+                .HasColumnName("created_at")        
                 .IsRequired();
 
-            builder.Property(auction => auction.UpdatedAt)
+            builder.Property(bid => bid.UpdatedAt)
                 .HasColumnName("updated_at");
 
-
-
             builder.HasOne(bid => bid.Auction)
-                 .WithMany(auction => auction.Bids)
-                 .HasForeignKey(auction => auction.AuctionId);
+                .WithMany(auction => auction.Bids)
+                .HasForeignKey(bid => bid.AuctionId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne<User>()
-             .WithMany()
-            .HasForeignKey(bid => bid.BidderId);
-
-            builder.HasIndex(bid => bid.AuctionId)
-                .HasDatabaseName("idx_bids_auction_id");
+                .WithMany()
+                .HasForeignKey(bid => bid.BidderId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasIndex(bid => bid.BidderId)
                 .HasDatabaseName("idx_bids_bidder_id");
 
-            builder.HasIndex(bid => new { bid.AuctionId, bid.PlacedAt })
+            builder.HasIndex(bid => new
+            {
+                bid.AuctionId,
+                bid.PlacedAt
+            })
                 .HasDatabaseName("idx_bids_auction_id_placed_at");
 
 
