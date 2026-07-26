@@ -18,5 +18,15 @@ namespace LiveBid.Application.Features.Common
             "Auction.CannotUpdate",
             "The auction cannot be updated because it is either closed or has already started."
         );
+
+        public static readonly Error CannotSchedule=new(
+            "Auction.CannotSchedule",
+            "The auction cannot be scheduled because it is either closed or has already started."
+            );
+
+        public static readonly Error CannotCancel = new(
+            "Auction.CannotCancel",
+            "The auction cannot be canceled because it is either closed or has already started."
+        );
     }
 }

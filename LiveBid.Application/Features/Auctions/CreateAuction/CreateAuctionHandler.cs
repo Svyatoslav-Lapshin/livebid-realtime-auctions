@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using LiveBid.Application.Common;
 using LiveBid.Application.Common.Interfaces;
+using LiveBid.Application.Features.Common;
 using LiveBid.Domain.Auctions;
 
 
@@ -17,7 +18,7 @@ namespace LiveBid.Application.Features.Auctions.CreateAuction
         {
             // Validate the command using the provided validator
             var validationResult = await _validator.ValidateAsync(command, cancellationToken);
-
+           
             // If the validation fails, return a failure result with the validation errors
             if (!validationResult.IsValid)
             {
@@ -26,16 +27,20 @@ namespace LiveBid.Application.Features.Auctions.CreateAuction
             }
             // Create a new Auction entity based on the command data
             var auction = new Auction
-            {
-                SellerId = command.SellerId,
-                Title = command.Title,
-                Description = command.Description,
-                StartPrice = command.StartPrice,
-                CurrentPrice = command.StartPrice,
-                StartTime = command.StartTime,
-                EndTime = command.EndTime,
-                Status = AuctionStatus.Scheduled
-            };
+            (
+                command.SellerId,
+                command.Title,
+                command.Description,
+                command.StartPrice,
+                command.StartTime,
+                command.EndTime
+            );
+              
+            var wasScheduled = auction.Schedule(DateTimeOffset.UtcNow);
+            if (!wasScheduled) { 
+                return Result<CreateAuctionResponse>.Failure(AuctionErrors.CannotSchedule);
+
+            }
 
             // Add the new auction to the database context and save changes
             await _dbContext.AddAuctionAsync(auction, cancellationToken);

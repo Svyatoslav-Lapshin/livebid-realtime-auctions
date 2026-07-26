@@ -46,7 +46,7 @@ namespace LiveBid.Application.Common
         // The Failure method creates a failed Result<T> instance with the provided error information.
         public static Result<T> Failure(Error error) => new Result<T>(false, error, default!);
 
- 
+        
 
     }
 }
