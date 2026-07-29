@@ -87,7 +87,7 @@ namespace LiveBid.Domain.Auctions
                 return null;
             }
 
-            if (currentTime < StartTime || currentTime > EndTime)
+            if (currentTime < StartTime || currentTime >= EndTime)
             {
                 return null;
             }

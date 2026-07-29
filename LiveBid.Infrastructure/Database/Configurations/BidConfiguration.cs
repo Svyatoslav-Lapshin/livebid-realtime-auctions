@@ -14,7 +14,8 @@ namespace LiveBid.Infrastructure.Database.Configurations
             builder.HasKey(bid => bid.Id);
 
             builder.Property(bid => bid.Id)
-                .HasColumnName("id");
+                .HasColumnName("id")
+                .ValueGeneratedNever();
               
 
             builder.Property(bid => bid.AuctionId)

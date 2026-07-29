@@ -1,4 +1,5 @@
 ﻿using LiveBid.Application.Common;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -28,6 +29,17 @@ namespace LiveBid.Application.Features.Common
             "Auction.CannotCancel",
             "The auction cannot be canceled because it is either closed or has already started."
         );
+
+        public static readonly Error CannotPlaceBid = new(
+            "Auction.CannotPlaceBid",
+            "The auction cannot accept bids because it is either closed or has not started yet."
+        );
+
+        public static readonly Error AuctionNotActive = new(
+            "Auction.NotActive",
+            "The auction is not currently active. Bids can only be placed on active auctions."
+
+            );
 
         public static readonly Error AuctionNotFound = new(
          "Auction.NotFound",
