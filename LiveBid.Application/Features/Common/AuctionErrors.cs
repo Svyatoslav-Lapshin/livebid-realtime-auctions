@@ -14,6 +14,15 @@ namespace LiveBid.Application.Features.Common
            "The auction with the specified ID was not found."
         );
 
+        public static readonly Error CannotEnd = new Error(
+            "Auction.CannotEnd",
+            "The auction cannot be ended in its current state or before its end time."
+            );
+
+        public static readonly Error CannotStart = new(
+            "Auction.CannotStart",
+            "The auction cannot be started because it is either closed or has already started."
+            );
 
         public static readonly Error CannotUpdate = new(
             "Auction.CannotUpdate",

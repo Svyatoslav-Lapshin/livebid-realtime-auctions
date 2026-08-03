@@ -36,6 +36,16 @@ namespace LiveBid.Infrastructure.Database
             return await Users.AnyAsync(u => u.Id == userId, cancellationToken);
         }
 
+        public async Task<Bid?> GetWinningBidAsync(Guid auctionId, CancellationToken cancellationToken = default)
+        {
+            return await Bids
+                .AsNoTracking()
+                .Where(b => b.AuctionId == auctionId)
+                .OrderByDescending(b => b.Amount)
+                .ThenBy(b => b.PlacedAt)
+                .FirstOrDefaultAsync(cancellationToken);
+        }
+
         public async Task<Auction?> GetAuctionAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await Auctions.FindAsync([id], cancellationToken);

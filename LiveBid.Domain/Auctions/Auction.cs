@@ -49,6 +49,46 @@ namespace LiveBid.Domain.Auctions
             EndTime = endTime;
         }
 
+
+        public bool Start(DateTimeOffset currentTime)
+        {
+            if (Status != AuctionStatus.Scheduled)
+            {
+                return false;
+
+            }
+
+            if (currentTime < StartTime)
+            {
+                return false;
+            }
+
+            if (currentTime >= EndTime)
+            {
+                return false;
+            }
+
+            Status = AuctionStatus.Live;
+
+            return true;
+        }
+
+        public bool End(DateTimeOffset currentTime)
+        {
+            if (Status != AuctionStatus.Live)
+            {
+                return false;
+            }
+
+            if (currentTime < EndTime)
+            {
+                return false;
+            }
+
+            Status = AuctionStatus.Ended;
+            return true;
+        }
+
         public bool Schedule(DateTimeOffset currentTime)
         {
             if (Status != AuctionStatus.Draft)
