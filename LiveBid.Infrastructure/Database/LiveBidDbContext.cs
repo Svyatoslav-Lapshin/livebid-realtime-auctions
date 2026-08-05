@@ -52,6 +52,7 @@ namespace LiveBid.Infrastructure.Database
         }
 
         public IQueryable<Auction> AuctionsQuery => Set<Auction>();
+        public IQueryable<Bid> BidsQuery => Bids.AsNoTracking();
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

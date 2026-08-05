@@ -11,6 +11,7 @@ using LiveBid.Application.Features.Auctions.CancelAuction;
 using LiveBid.Application.Features.Auctions.PlaceBid;
 using LiveBid.Application.Features.Auctions.StartAuction;
 using LiveBid.Application.Features.Auctions.EndAuction;
+using LiveBid.Application.Features.Auctions.GetAuctionBids;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,6 +39,9 @@ builder.Services.AddScoped<PlaceBidHandler>();
 builder.Services.AddScoped<
     IValidator<PlaceBidCommand>,
     PlaceBidValidator>();
+
+builder.Services.AddScoped<GetAuctionBidsHandler>();
+builder.Services.AddScoped<IValidator<GetAuctionBidsQuery>, GetAuctionBidsValidator>();
 
 var app = builder.Build();
 
@@ -81,4 +85,5 @@ app.MapCancelAuctionEndpoint();
 app.MapPlaceBidEndpoint();
 app.MapStartAuctionEndpoint();
 app.MapEndAuctionEndpoint();
+app.MapGetAuctionBidsEndpoint();
 app.Run();

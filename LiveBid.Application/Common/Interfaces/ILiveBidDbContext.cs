@@ -6,6 +6,7 @@ namespace LiveBid.Application.Common.Interfaces
    public interface ILiveBidDbContext
     {
         IQueryable<Auction> AuctionsQuery { get; }
+        IQueryable<Bid> BidsQuery { get; }
         Task AddAuctionAsync(Auction auction, CancellationToken cancellationToken = default);
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
         Task<Auction?> GetAuctionAsync(Guid id, CancellationToken cancellationToken = default);
@@ -13,7 +14,7 @@ namespace LiveBid.Application.Common.Interfaces
         Task<Bid?> GetWinningBidAsync(Guid auctionId, CancellationToken cancellationToken = default);
         Task AddBidAsync(Bid bid, CancellationToken cancellationToken = default);
     
-
+        
 
     }
 }
