@@ -38,10 +38,16 @@ namespace LiveBid.Application.Features.Auctions.PlaceBid
 
             var currentTime = DateTimeOffset.UtcNow;
 
+            if (auction.Status is AuctionStatus.Ended)
+            {
+                return Result<PlaceBidResponse>.Failure(AuctionErrors.AuctionEnded);
+            }
+
             if (auction.Status is not AuctionStatus.Live)
             {
                 return Result<PlaceBidResponse>.Failure(AuctionErrors.AuctionNotLive);
             }
+
 
             if (currentTime < auction.StartTime || currentTime >= auction.EndTime)
             {

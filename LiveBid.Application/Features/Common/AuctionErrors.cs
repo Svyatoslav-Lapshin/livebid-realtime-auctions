@@ -49,6 +49,10 @@ namespace LiveBid.Application.Features.Common
             "The auction is not currently active. Bids can only be placed on active auctions."
 
             );
+        public static readonly Error AuctionEnded = new(
+            "Auction.Ended",
+            "The auction has ended and no longer accepts bids."
+        );
 
         public static readonly Error AuctionNotFound = new(
          "Auction.NotFound",
