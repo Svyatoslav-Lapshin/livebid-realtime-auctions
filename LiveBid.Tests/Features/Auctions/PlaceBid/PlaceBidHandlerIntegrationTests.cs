@@ -224,7 +224,6 @@ namespace LiveBid.Tests.Features.Auctions.PlaceBid
 
         }
 
-
         [Fact]
         public async Task Handle_WhenBidIsTooLow_ShouldNotCreateBid()
         {
@@ -327,11 +326,8 @@ namespace LiveBid.Tests.Features.Auctions.PlaceBid
 
             await using var verificationContext = TestDbContextFactory.Create();
 
-
-
             var savedAuction = await verificationContext.Auctions.AsNoTracking().SingleAsync(a => a.Id == auction.Id);
             Assert.Equal(100m, savedAuction.CurrentPrice);
-
 
         }
 
@@ -380,7 +376,6 @@ namespace LiveBid.Tests.Features.Auctions.PlaceBid
 
 
         }
-
 
         // NOT FOUND
 
@@ -451,18 +446,15 @@ namespace LiveBid.Tests.Features.Auctions.PlaceBid
 
             var validator = new PlaceBidValidator();
             var handler = new PlaceBidHandler(dbContext, validator);
-
+            //Act
             var result = await handler.Handle(placeBidCommand, CancellationToken.None);
 
+
+            //Assert
             Assert.True(result.IsFailure);
             Assert.Equal("Auction.NotFound", result.Error.Code);
 
-
-
-
-
         }
-
 
         // AUCTION STATE
 
@@ -495,6 +487,18 @@ namespace LiveBid.Tests.Features.Auctions.PlaceBid
 
             Assert.Equal(AuctionStatus.Scheduled, auction.Status);
 
+            await dbContext.AddAuctionAsync(auction, CancellationToken.None);
+            await dbContext.SaveChangesAsync();
+
+            var placeBidCommand = new PlaceBidCommand(auction.Id, bidder.Id, 150m);
+
+            var validator = new PlaceBidValidator();
+            var handler = new PlaceBidHandler(dbContext, validator);
+
+            var result = await handler.Handle(placeBidCommand, CancellationToken.None);
+
+            Assert.True(result.IsFailure);
+            Assert.Equal("Auction.NotLive", result.Error.Code);
 
 
         }
@@ -561,6 +565,9 @@ namespace LiveBid.Tests.Features.Auctions.PlaceBid
             Assert.Equal("Auction.Ended", result.Error.Code);
 
         }
+
+      
+
 
        
     }
